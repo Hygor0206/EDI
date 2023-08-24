@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/albert/Documents/dev/IFC/EDI/lista-encadeada-simples",
-      "program": "/home/albert/Documents/dev/IFC/EDI/lista-encadeada-simples/build/Debug/outDebug",
+      "cwd": "/home/albert/Documents/dev/IFC/EDI/lista_encadeada_dupla",
+      "program": "/home/albert/Documents/dev/IFC/EDI/lista_encadeada_dupla/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

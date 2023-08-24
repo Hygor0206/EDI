@@ -2,26 +2,39 @@
 #include <stdio.h>
 
 typedef struct sNode{
-    struct sNodo* prev;
-    struct sNodo* next;
+    struct sNode *prev;
+    struct sNode *next;
     int data;
 } Node;
 
 typedef struct sList{
-    struct sNodo* head;
-    struct sNodo* tail;
+    struct sNode* head;
+    struct sNode* tail;
     int size;
 } List;
 
 Node* createNode(int);
 List* createList();
 int emptyList(List*);
-void insert(List*, Node*, int);
-void remove(List*, Node*);
+void errors(int);
+void insertNode(List*, Node*, int);
+void removeNode(List*, Node*);
 void search(List*, Node*);
+void readList(List*);
 
 int main(){
-    return 0;
+    List* myList;
+    myList = createList();
+
+    insertNode(myList, NULL, 10);
+    readList(myList); 
+    insertNode(myList, myList->head, 15);
+    readList(myList); 
+    insertNode(myList, myList->tail, 25);
+    readList(myList); 
+    insertNode(myList, NULL, 5);
+    insertNode(myList, myList->tail, 35);
+    readList(myList); 
 }
 
 Node* createNode(int data){
@@ -50,7 +63,15 @@ int emptyList(List* list){
     return 0;
 }
 
-void insert(List* list, Node* node, int data){
+void errors(int error){
+    if(error == -1)
+        printf("List Underflow");
+    else if(error == -2){
+        printf("End of the list");
+    }
+}
+
+void insertNode(List* list, Node* node, int data){
     Node* new_element;
     Node* element;
     new_element = createNode(data);
@@ -78,4 +99,50 @@ void insert(List* list, Node* node, int data){
         node->next=new_element;
     }
     list->size++;
+}
+
+void removeNode(List* list, Node* node){
+    Node* old_element;
+    Node* element;
+
+    if(emptyList(list))
+        errors(-1);
+    
+    if(node==NULL){
+        old_element = list->head;
+        element= old_element->next;
+        
+        if(list->head == NULL)
+            list->tail=NULL;
+    }else{
+        if(node->next==NULL)
+            errors(-2);
+        
+        old_element = node->next;
+        node->next=old_element->next;
+        element=old_element->next;
+
+        if(element!=NULL)
+            element->prev=node;
+        else
+            list->tail=node;    
+    }
+    free(old_element);
+    list->size--;
+}
+
+void readList(List* list){
+    Node* node;
+
+    if(emptyList(list))
+        errors(-1);
+    else{
+        printf("\nElements da Lista: \n");
+        node = list->head;
+        while(node!=NULL){
+            printf("%i, ", node->data);
+            node = node->next;
+        }
+    }
+    
 }
