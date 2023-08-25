@@ -58,7 +58,7 @@ List* createList(){
 }
 
 int emptyList(List* list){
-    if(list->size=0)
+    if(list->size==0)
         return 1;
     return 0;
 }
