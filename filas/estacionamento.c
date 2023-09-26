@@ -7,7 +7,10 @@ int freeParking(List*, List*, int);
 void rotateQueue(List*, Node*);
 
 int main(){
-    
+    List* myList=createList();
+
+    insertQueue(myList, 25);
+    readList(myList);
 }
 
 void parking(List* mainParking, List* waitParking, int plate){
@@ -27,7 +30,7 @@ int freeParking(List* mainParking, List* waitParking, int plate){
     Node* head = mainParking->head;
     
     rotateQueue(mainParking, nodeRemove);
-    mainRemoved = removeNode(mainParking);
+    mainRemoved = removeQueue(mainParking);
     rotateQueue(mainParking, head); 
     if(!emptyList(waitParking)){
         waitRemoved = removeQueue(waitParking);
@@ -43,10 +46,10 @@ void rotateQueue(List* queue, Node* first){
     node = queue->head;
 
     do{
-        removed = removeQueue(node);
+        removed = removeQueue(queue);
         insertQueue(queue, removed);
         node=node->next;
-    }while(removed!=first);
+    }while(removed!=first->data);
 }
 // Nodo* nodo;
 // int removido;

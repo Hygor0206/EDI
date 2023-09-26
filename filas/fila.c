@@ -19,7 +19,7 @@ Node* findMaxQueue(List* queue){
     Node* node;
     
     if(emptyList(queue))
-        return -1;
+        errors(-1);
 
     node = queue->head;
     while(node!=NULL){
@@ -30,12 +30,12 @@ Node* findMaxQueue(List* queue){
     return max;
 }
 
-Node* findMaxQueue(List* queue){
+Node* findMinQueue(List* queue){
     Node* max;
     Node* node;
     
     if(emptyList(queue))
-        return -1;
+        errors(-1);
 
     node = queue->head;
     while(node!=NULL){
