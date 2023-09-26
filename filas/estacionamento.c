@@ -39,7 +39,6 @@ int freeParking(List* mainParking, List* waitParking, int plate){
     return mainRemoved;
 }
 
-// PROJETO DE GIRAR A FILA
 void rotateQueue(List* queue, Node* first){
     Node* node;
     int removed;
