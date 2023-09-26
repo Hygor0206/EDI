@@ -51,12 +51,3 @@ void rotateQueue(List* queue, Node* first){
         node=node->next;
     }while(removed!=first->data);
 }
-// Nodo* nodo;
-// int removido;
-// nodo = fila->head;
-
-// do{
-//     removeFila(nodo);
-//     insereFila(fila, removido);
-//     nodo = nodo->next;
-// }while(nodo != primeiro)
