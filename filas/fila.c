@@ -10,7 +10,7 @@ void insertQueue(List* queue, int data){
 }
 
 int removeQueue(List* queue){
-    int removed = removeNode(queue, queue->head->prev);
+    int removed = removeNode(queue, queue->head);
     return removed;
 }
 

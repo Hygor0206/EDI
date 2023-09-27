@@ -87,36 +87,27 @@ void insertNode(List* list, Node* node, int data){
 }
 
 int removeNode(List* list, Node* node){
-    Node* old_element;
-    Node* element;
     int removed;
-
-    if(emptyList(list))
-        errors(-1);
-    
-    if(node==NULL){
-        old_element = list->head;
-        element= old_element->next;
-        
-        if(list->head == NULL)
-            list->tail=NULL;
-    }else{
-        if(node->next==NULL)
-            errors(-2);
-        
-        old_element = node->next;
-        node->next=old_element->next;
-        element=old_element->next;
-
-        if(element!=NULL)
-            element->prev=node;
-        else
-            list->tail=node;    
-    }
-    removed=old_element->data;
-    free(old_element);
-    list->size--;
-    return removed;
+    if ((node != NULL) && (!emptyList(list))){
+        if (node == list->head){
+            list->head = node->next;
+            if (list->head == NULL)
+                list->tail = NULL;
+            else
+                node->next->prev = NULL;
+        } else {
+            node->prev->next = node->next;
+            if (node->next == NULL)
+                list->tail = node->prev;
+            else
+                node->next->prev = node->prev;
+        }
+        removed = node->data;
+        free(node);
+        list->size--;
+        return removed;
+    } else
+        return -1;
 }
 
 void readList(List* list){
@@ -125,7 +116,6 @@ void readList(List* list){
     if(emptyList(list))
         errors(-1);
     else{
-        printf("\nElements da Lista: \n");
         node = list->head;
         while(node!=NULL){
             printf("%i, ", node->data);

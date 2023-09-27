@@ -7,14 +7,57 @@ int freeParking(List*, List*, int);
 void rotateQueue(List*, Node*);
 
 int main(){
-    List* myList=createList();
+    List* parkingQueue=createList();
+    List* waitingQueue=createList();
 
-    insertQueue(myList, 25);
-    readList(myList);
+    char resposta;
+    int plate;
+
+    for(;;){
+        printf("\nEstacionamento\n"
+        "C - Chegada\n"
+        "P - Partida\n"
+        "S - Sair\n");
+        scanf(" %c", &resposta);
+        if((resposta=='S')||(resposta=='s')){
+            printf("Closing program\n");
+            return 0;
+        }
+
+        switch (resposta)
+        {
+            case 'c':    
+            case 'C':
+                printf("What's the license plate of the car?\n");
+                scanf(" %d", &plate);
+
+                parking(parkingQueue, waitingQueue, plate);
+                if(!(emptyList(waitingQueue))){
+                    printf("Parking is full, car is waiting in the queue\n");
+                    readList(waitingQueue);
+                }else{
+                    printf("Parked Cars\n");
+                    readList(parkingQueue);
+                }
+                break;
+            case 'p':
+            case 'P':
+                printf("What's the license plate of the car?\n");
+                scanf(" %d", &plate);
+
+                freeParking(parkingQueue, waitingQueue, plate);
+                printf("Current cars parked\n");
+                readList(parkingQueue);
+                break;
+            default:
+                printf("Invalid Option\n");
+                break;
+        }
+    }
 }
 
 void parking(List* mainParking, List* waitParking, int plate){
-    if(mainParking->size<10)
+    if(mainParking->size<2)
         insertQueue(mainParking, plate);
     else
         insertQueue(waitParking, plate);
@@ -44,9 +87,9 @@ void rotateQueue(List* queue, Node* first){
     int removed;
     node = queue->head;
 
-    do{
+    while(node!=first){
         removed = removeQueue(queue);
         insertQueue(queue, removed);
-        node=node->next;
-    }while(removed!=first->data);
+        node = node->prev;
+    };
 }
