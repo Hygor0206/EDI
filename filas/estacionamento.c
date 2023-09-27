@@ -57,7 +57,7 @@ int main(){
 }
 
 void parking(List* mainParking, List* waitParking, int plate){
-    if(mainParking->size<2)
+    if(mainParking->size<10)
         insertQueue(mainParking, plate);
     else
         insertQueue(waitParking, plate);
