@@ -25,7 +25,7 @@ Node* findMaxQueue(Queue* queue){
     Node* max;
     Node* node;
     
-    if(emptyQueue(queue))
+    if(emptyList(queue))
         errors(-1);
 
     node = queue->head;
@@ -41,7 +41,7 @@ Node* findMinQueue(Queue* queue){
     Node* max;
     Node* node;
     
-    if(emptyQueue(queue))
+    if(emptyList(queue))
         errors(-1);
 
     node = queue->head;

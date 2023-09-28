@@ -32,12 +32,12 @@ int main(){
                 scanf(" %d", &plate);
 
                 parking(parkingQueue, waitingQueue, plate);
-                if(!(emptyQueue(waitingQueue))){
+                if(!(emptyList(waitingQueue))){
                     printf("Parking is full, car is waiting in the queue\n");
-                    readQueue(waitingQueue);
+                    readList(waitingQueue);
                 }else{
                     printf("Parked Cars\n");
-                    readQueue(parkingQueue);
+                    readList(parkingQueue);
                 }
                 break;
             case 'p':
@@ -47,7 +47,7 @@ int main(){
 
                 freeParking(parkingQueue, waitingQueue, plate);
                 printf("Current cars parked\n");
-                readQueue(parkingQueue);
+                readList(parkingQueue);
                 break;
             default:
                 printf("Invalid Option\n");
@@ -66,7 +66,7 @@ void parking(Queue* mainParking, Queue* waitParking, int plate){
 int freeParking(Queue* mainParking, Queue* waitParking, int plate){
     int mainRemoved, waitRemoved;
 
-    if(emptyQueue(mainParking))
+    if(emptyList(mainParking))
         return -1;
 
     Node* nodeRemove = search(mainParking, plate);
@@ -80,7 +80,7 @@ int freeParking(Queue* mainParking, Queue* waitParking, int plate){
     rotateQueue(mainParking, nodeRemove);
     mainRemoved = removeQueue(mainParking);
     rotateQueue(mainParking, head); 
-    if(!emptyQueue(waitParking)){
+    if(!emptyList(waitParking)){
         waitRemoved = removeQueue(waitParking);
         insertQueue(mainParking, waitRemoved);
     }
@@ -95,10 +95,10 @@ void rotateQueue(Queue* queue, Node* first){
     while(node!=first){
         removed = removeQueue(queue);
         insertQueue(queue, removed);
-        if(node->prev==NULL){
-            node = node->next;
-        }else{
+        if(node->prev!=NULL){
             node = node->prev;
+        }else{
+            node = node->next;
         }
     };
 }
