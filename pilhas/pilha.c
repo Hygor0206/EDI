@@ -4,8 +4,8 @@ typedef List Stack;
 
 void push(Stack*, int);
 int pop(Stack*);
-int empty(Stack*);
-int stacktop(Stack*);
+int emptyStack(Stack*);
+int stackTop(Stack*);
 Stack* newStack();
 
 int main()
@@ -26,10 +26,10 @@ int pop(Stack* s){
     return removed;
 }
 
-int empty(Stack* s){
+int emptyStack(Stack* s){
     return emptyList(s);
 }
 
-int stacktop(Stack* s){
+int stackTop(Stack* s){
     return s->tail->data;
 }

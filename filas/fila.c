@@ -2,10 +2,15 @@
 
 typedef List Queue;
 
+Queue* createQueue();
 void insertQueue(Queue*, int);
 int removeQueue(Queue*);
 Node* findMaxQueue(Queue*);
 Node* findMinQueue(Queue*);
+
+Queue* createQueue(){
+    return createList();
+}
 
 void insertQueue(Queue* queue, int data){
     insertNode(queue, queue->tail, data);
