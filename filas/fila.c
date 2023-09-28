@@ -1,24 +1,26 @@
 #include "lista.c"
 
-void insertQueue(List*, int);
-int removeQueue(List*);
-Node* findMaxQueue(List*);
-Node* findMinQueue(List*);
+typedef List Queue;
 
-void insertQueue(List* queue, int data){
+void insertQueue(Queue*, int);
+int removeQueue(Queue*);
+Node* findMaxQueue(Queue*);
+Node* findMinQueue(Queue*);
+
+void insertQueue(Queue* queue, int data){
     insertNode(queue, queue->tail, data);
 }
 
-int removeQueue(List* queue){
+int removeQueue(Queue* queue){
     int removed = removeNode(queue, queue->head);
     return removed;
 }
 
-Node* findMaxQueue(List* queue){
+Node* findMaxQueue(Queue* queue){
     Node* max;
     Node* node;
     
-    if(emptyList(queue))
+    if(emptyQueue(queue))
         errors(-1);
 
     node = queue->head;
@@ -30,11 +32,11 @@ Node* findMaxQueue(List* queue){
     return max;
 }
 
-Node* findMinQueue(List* queue){
+Node* findMinQueue(Queue* queue){
     Node* max;
     Node* node;
     
-    if(emptyList(queue))
+    if(emptyQueue(queue))
         errors(-1);
 
     node = queue->head;

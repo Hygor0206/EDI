@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include "fila.c"
 
-void parking(List*, List*, int);
-int freeParking(List*, List*, int);
-void rotateQueue(List*, Node*);
+void parking(Queue*, Queue*, int);
+int freeParking(Queue*, Queue*, int);
+void rotateQueue(Queue*, Node*);
 
 int main(){
-    List* parkingQueue=createList();
-    List* waitingQueue=createList();
+    Queue* parkingQueue=createQueue();
+    Queue* waitingQueue=createQueue();
 
     char resposta;
     int plate;
@@ -32,12 +32,12 @@ int main(){
                 scanf(" %d", &plate);
 
                 parking(parkingQueue, waitingQueue, plate);
-                if(!(emptyList(waitingQueue))){
+                if(!(emptyQueue(waitingQueue))){
                     printf("Parking is full, car is waiting in the queue\n");
-                    readList(waitingQueue);
+                    readQueue(waitingQueue);
                 }else{
                     printf("Parked Cars\n");
-                    readList(parkingQueue);
+                    readQueue(parkingQueue);
                 }
                 break;
             case 'p':
@@ -47,7 +47,7 @@ int main(){
 
                 freeParking(parkingQueue, waitingQueue, plate);
                 printf("Current cars parked\n");
-                readList(parkingQueue);
+                readQueue(parkingQueue);
                 break;
             default:
                 printf("Invalid Option\n");
@@ -56,33 +56,38 @@ int main(){
     }
 }
 
-void parking(List* mainParking, List* waitParking, int plate){
+void parking(Queue* mainParking, Queue* waitParking, int plate){
     if(mainParking->size<10)
         insertQueue(mainParking, plate);
     else
         insertQueue(waitParking, plate);
 }
 
-int freeParking(List* mainParking, List* waitParking, int plate){
+int freeParking(Queue* mainParking, Queue* waitParking, int plate){
     int mainRemoved, waitRemoved;
 
-    if(emptyList(mainParking))
+    if(emptyQueue(mainParking))
         return -1;
 
     Node* nodeRemove = search(mainParking, plate);
-    Node* head = mainParking->head;
+    Node* head;
+    if(plate==mainParking->head->data){
+        head = mainParking->head->next;
+    }else{
+        head = mainParking->head;
+    }
     
     rotateQueue(mainParking, nodeRemove);
     mainRemoved = removeQueue(mainParking);
     rotateQueue(mainParking, head); 
-    if(!emptyList(waitParking)){
+    if(!emptyQueue(waitParking)){
         waitRemoved = removeQueue(waitParking);
         insertQueue(mainParking, waitRemoved);
     }
     return mainRemoved;
 }
 
-void rotateQueue(List* queue, Node* first){
+void rotateQueue(Queue* queue, Node* first){
     Node* node;
     int removed;
     node = queue->head;
@@ -90,6 +95,10 @@ void rotateQueue(List* queue, Node* first){
     while(node!=first){
         removed = removeQueue(queue);
         insertQueue(queue, removed);
-        node = node->prev;
+        if(node->prev==NULL){
+            node = node->next;
+        }else{
+            node = node->prev;
+        }
     };
 }
