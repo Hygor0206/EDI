@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 // Prototipação das funções
 void insertionSort(int[], int);
@@ -16,10 +17,10 @@ int main(){
 
 // Função responsável para organizar o algoritmo seguindo a lógica de insertion sort
 void insertionSort(int array[], int n){
-    int i, key, j;
+    int key, j;
 
 
-    for(i=1;i<n;i++){
+    for(int i=1;i<n;i++){
         key=array[i]; // Seleciona a chave para ser comparada
         j=i-1; // Definie o elemento anterior a chave
 
