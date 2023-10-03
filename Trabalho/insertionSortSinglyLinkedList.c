@@ -5,12 +5,13 @@
 Node* head = NULL;
 Node* sorted = NULL;
 
+// Prototipação das funções
 void push(int);
 void sortedInsert(Node*);
 void insertionsort();
 void printlist(Node*);
 
-// Driver program to test above functions
+// Função main com as chamadas das funções
 int main()
 {
 	push(12);
@@ -33,29 +34,19 @@ void push(int val)
 {
 	Node* newNode = (Node*)malloc(sizeof(Node));
 	newNode->data = val;
-	/* link the old list of the new node */
 	newNode->next = head;
-	/* move the head to point to the new node */
 	head = newNode;
 }
 
-/*
-* function to insert a new_node in a list. Note that
-* this function expects a pointer to head_ref as this
-* can modify the head of the input linked list
-* (similar to push())
-*/
 void sortedInsert(Node* newNode)
 {
-	/* Special case for the head end */
 	if (sorted == NULL || sorted->data >= newNode->data) {
 		newNode->next = sorted;
 		sorted = newNode;
 	}
 	else {
 		Node* current = sorted;
-		/* Locate the node before the point of insertion
-		*/
+
 		while (current->next != NULL
 			&& current->next->data < newNode->data) {
 			current = current->next;
@@ -65,30 +56,19 @@ void sortedInsert(Node* newNode)
 	}
 }
 
-// function to sort a singly linked list
-// using insertion sort
 void insertionsort()
 {
 	Node* current = head;
 
-	// Traverse the given linked list and insert every
-	// node to sorted
 	while (current != NULL) {
-
-		// Store next for next iteration
 		Node* next = current->next;
 
-		// insert current in sorted linked list
 		sortedInsert(current);
-
-		// Update current
 		current = next;
 	}
-	// Update head to point to sorted linked list
 	head = sorted;
 }
 
-/* Function to print linked list */
 void printlist(Node* head)
 {
 	while (head != NULL) {

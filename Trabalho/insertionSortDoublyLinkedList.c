@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include "node.h"
 
+// Prototipação das funções
 Node *getNode(int);
 void sortedInsert(Node**, Node*);
 void printList(Node*);
 
+// Função main com as chamadas das funções
 int main(){
     Node* list = NULL;
     Node* newNode = getNode(12);
