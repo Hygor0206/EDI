@@ -8,7 +8,7 @@ Node* sorted = NULL;
 // Prototipação das funções
 void push(int);
 void sortedInsert(Node*);
-void insertionsort();
+void insertionSort();
 void printlist(Node*);
 
 // Função main com as chamadas das funções
@@ -24,7 +24,7 @@ int main()
 	printlist(head);
 	printf("\n");
 
-	insertionsort(head);
+	insertionSort(head);
 
 	printf("Lista Ordenada com Insertion Sort:\n");
 	printlist(head);
@@ -56,7 +56,7 @@ void sortedInsert(Node* newNode)
 	}
 }
 
-void insertionsort()
+void insertionSort()
 {
 	Node* current = head;
 
