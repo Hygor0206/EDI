@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include "node.h"
 
-Node* head = NULL;
-Node* sorted = NULL;
-
 // Prototipação das funções
 void push(int);
 void sortedInsert(Node*);
 void insertionSort();
 void printlist(Node*);
+
+Node* head = NULL;
+Node* sorted = NULL;
 
 // Função main com as chamadas das funções
 int main()
@@ -24,7 +24,7 @@ int main()
 	printlist(head);
 	printf("\n");
 
-	insertionSort(head);
+	insertionSort();
 
 	printf("Lista Ordenada com Insertion Sort:\n");
 	printlist(head);
@@ -47,10 +47,9 @@ void sortedInsert(Node* newNode)
 	else {
 		Node* current = sorted;
 
-		while (current->next != NULL
-			&& current->next->data < newNode->data) {
+		while (current->next != NULL && current->next->data < newNode->data)
 			current = current->next;
-		}
+        
 		newNode->next = current->next;
 		current->next = newNode;
 	}
