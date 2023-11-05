@@ -4,7 +4,7 @@
 
 void parking(Queue*, Queue*, int);
 int freeParking(Queue*, Queue*, int);
-void rotateQueue(Queue*, Node*);
+int rotateQueue(Queue*, Node*, int);
 
 int main(){
     Queue* parkingQueue=createQueue();
@@ -12,14 +12,30 @@ int main(){
 
     char resposta;
     int plate;
+    int turnTimes = 0;
 
     for(;;){
-        printf("\nEstacionamento\n"
-        "C - Chegada\n"
-        "P - Partida\n"
-        "S - Sair\n");
+        printf("\n=====================================\n");
+        printf("==============Parking================\n");
+        printf("=====================================\n");
+        if(!emptyList(parkingQueue)){
+            printf("\nCurrent Cars Parked:\n");
+            readList(parkingQueue);
+        }else{
+            printf("\nParking lot is empty");
+        }
+        if(!emptyList(waitingQueue)){
+            printf("\n");
+            printf("\nCars Waiting\n");
+            readList(waitingQueue);
+        }
+        printf("\n");
+        printf("\nChoose an option:");
+        printf("\nC - Arrive\n"
+        "P - Leaving\n"
+        "E - Exit Program\n");
         scanf(" %c", &resposta);
-        if((resposta=='S')||(resposta=='s')){
+        if((resposta=='E')||(resposta=='e')){
             printf("Closing program\n");
             return 0;
         }
@@ -33,11 +49,9 @@ int main(){
 
                 parking(parkingQueue, waitingQueue, plate);
                 if(!(emptyList(waitingQueue))){
-                    printf("Parking is full, car is waiting in the queue\n");
-                    readList(waitingQueue);
+                    printf("The parking lot is full, the car is waiting in the queue\n");
                 }else{
-                    printf("Parked Cars\n");
-                    readList(parkingQueue);
+                    printf("The car has been successfully parked\n");
                 }
                 break;
             case 'p':
@@ -45,9 +59,17 @@ int main(){
                 printf("What's the license plate of the car?\n");
                 scanf(" %d", &plate);
 
-                freeParking(parkingQueue, waitingQueue, plate);
-                printf("Current cars parked\n");
-                readList(parkingQueue);
+                turnTimes = freeParking(waitingQueue, waitingQueue, plate);
+                if (turnTimes <= 0){
+                    turnTimes = freeParking(parkingQueue, waitingQueue, plate);
+                    if(turnTimes <= 0){
+                        printf("The car was not found\n");
+                    }else{
+                        printf("The car was moved %d times and has left the parking lot\n", turnTimes);
+                    }
+                }else{
+                    printf("The car has left the waiting queue");
+                }
                 break;
             default:
                 printf("Invalid Option\n");
@@ -57,19 +79,25 @@ int main(){
 }
 
 void parking(Queue* mainParking, Queue* waitParking, int plate){
-    if(mainParking->size<10)
+    if(mainParking->size<3)
         insertQueue(mainParking, plate);
     else
         insertQueue(waitParking, plate);
 }
 
 int freeParking(Queue* mainParking, Queue* waitParking, int plate){
-    int mainRemoved, waitRemoved;
+    int waitRemoved, turnTimes=0;
 
     if(emptyList(mainParking))
         return -1;
 
     Node* nodeRemove = search(mainParking, plate);
+
+    if(nodeRemove==NULL){
+        nodeRemove = search(waitParking, plate);
+        if(nodeRemove==NULL) return 0;
+    }
+
     Node* head;
     if(plate==mainParking->head->data){
         head = mainParking->head->next;
@@ -77,28 +105,22 @@ int freeParking(Queue* mainParking, Queue* waitParking, int plate){
         head = mainParking->head;
     }
     
-    rotateQueue(mainParking, nodeRemove);
-    mainRemoved = removeQueue(mainParking);
-    rotateQueue(mainParking, head); 
+    turnTimes = rotateQueue(mainParking, nodeRemove, turnTimes);
+    removeQueue(mainParking);
+    rotateQueue(mainParking, head, turnTimes);
     if(!emptyList(waitParking)){
         waitRemoved = removeQueue(waitParking);
         insertQueue(mainParking, waitRemoved);
     }
-    return mainRemoved;
+    return turnTimes;
 }
 
-void rotateQueue(Queue* queue, Node* first){
-    Node* node;
-    int removed;
-    node = queue->head;
-
-    while(node!=first){
-        removed = removeQueue(queue);
-        insertQueue(queue, removed);
-        if(node->prev!=NULL){
-            node = node->prev;
-        }else{
-            node = node->next;
-        }
-    };
+int rotateQueue(Queue* queue, Node* first, int turnTimes){
+    turnTimes++;
+    while(queue->head != first){
+        int frontValue = removeQueue(queue);
+        insertQueue(queue, frontValue);
+        turnTimes++;
+    }
+    return turnTimes;
 }
