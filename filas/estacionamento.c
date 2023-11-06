@@ -79,7 +79,7 @@ int main(){
 }
 
 void parking(Queue* mainParking, Queue* waitParking, int plate){
-    if(mainParking->size<3)
+    if(mainParking->size<10)
         insertQueue(mainParking, plate);
     else
         insertQueue(waitParking, plate);
